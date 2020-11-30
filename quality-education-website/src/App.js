@@ -1,10 +1,16 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from "react";
+
+import NavbarComponent from "./components/NavbarComponent.js";
+
+import classroom from "./images/classroom.jpg";
 
 function App() {
   return (
-    <div className="App">
-      <h1>rumana is bad at kaisa</h1>
+    <div>
+      <NavbarComponent />
+      <div className="background">
+        <img src={classroom} className="stretchy" />
+      </div>
     </div>
   );
 }
