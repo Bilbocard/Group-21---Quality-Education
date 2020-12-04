@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
 function DropdownMenuLessons() {
-  const [activeMenu, setActiveMenu] = useState("subjects");
+  const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(160);
   const [subjectSelected, setSubject] = useState(null);
   const [currentIcon, setIcon] = useState(null);
@@ -10,6 +10,18 @@ function DropdownMenuLessons() {
   function calcHeight(el) {
     const height = el.offsetHeight;
     setMenuHeight(height);
+  }
+
+  function Back(props) {
+    return (
+      <a
+        href="#"
+        className="back-button"
+        onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}
+      >
+        <span className="back-icon-button">⬅</span>
+      </a>
+    );
   }
 
   function DropdownItem(props) {
@@ -34,14 +46,16 @@ function DropdownMenuLessons() {
   return (
     <div className="dropdown-notifications" style={{ height: menuHeight }}>
       <CSSTransition
-        in={activeMenu === "subjects"}
+        in={activeMenu === "main"}
         unmountOnExit
         timeout={500}
         classNames="menu-primary"
         onEnter={calcHeight}
       >
         <div className="menu">
-          <h className="notifications">📚&ensp;Subjects</h>
+          <h className="notifications">
+            <div className="status-text">📚&ensp;Subjects</div>
+          </h>
           <DropdownItem
             leftIcon="🧮"
             subject="Maths"
@@ -70,14 +84,16 @@ function DropdownMenuLessons() {
       >
         <div className="menu">
           <h className="notifications">
-            {currentIcon}&ensp;{subjectSelected}
+            <div className="back-position">
+              <Back goToMenu="main" />
+            </div>
+            <div className="back-text">
+              {currentIcon}&ensp;{subjectSelected}
+            </div>
           </h>
           <DropdownItem leftIcon="1">&ensp;Primary School</DropdownItem>
           <DropdownItem leftIcon="2">&ensp;Secondary School</DropdownItem>
           <DropdownItem leftIcon="3">&ensp;Sixth Form/College</DropdownItem>
-          <DropdownItem leftIcon="⬅" goToMenu="subjects">
-            &ensp;Back
-          </DropdownItem>
         </div>
       </CSSTransition>
     </div>

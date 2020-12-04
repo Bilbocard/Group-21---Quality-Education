@@ -1,4 +1,5 @@
 body {
+  background-color: #484a4d;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -7,17 +8,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-img.stretchy {
-  margin-top: 20px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
 .background {
   background-color: #484a4d;
-  top: 80px;
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -120,9 +112,9 @@ a {
 .dropdown-notifications {
   background-image: linear-gradient(
     to bottom,
-    #515151,
-    #515151 43px,
-    transparent 43px,
+    #cdcdcd,
+    #cdcdcd 28px,
+    transparent 28px,
     transparent 100%
   );
   position: fixed;
@@ -132,7 +124,7 @@ a {
   background-color: var(--bg);
   border: var(--border);
   border-radius: var(--border-radius);
-  padding: 1rem;
+  padding: 0rem;
   overflow: hidden;
   transition: height var(--speed) ease;
 }
@@ -142,12 +134,11 @@ a {
 }
 
 .notifications {
+  width: 300px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
+  flex-direction: row;
+  color: black;
   font-size: 20px;
-  background-color: var(red);
 }
 
 .menu-item {
@@ -165,6 +156,7 @@ a {
 
 .icon-right {
   margin-left: auto;
+  font-size: 25px;
 }
 
 .menu-primary-enter {
@@ -203,4 +195,70 @@ a {
 .menu-secondary-exit-active {
   transform: translateX(110%);
   transition: all var(--speed) ease;
+}
+
+.hero-container {
+  /*background: url("./images/classroom.jpg") center center/cover no-repeat;*/
+  height: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0, 2);
+  object-fit: contain;
+  font-family: "Trebuchet MS";
+  margin-top: 80px;
+}
+
+.title {
+  font-size: 80px;
+  color: #fff;
+}
+
+.content {
+  font-size: 40px;
+  color: #fff;
+}
+
+.home-top {
+}
+
+.back-icon-button {
+  --back-button-size: 20px;
+  width: var(--back-button-size);
+  height: var(--back-button-size);
+  background-color: #cdcdcd;
+  border-radius: 0%;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 300ms;
+  font-size: 25px;
+}
+
+.back-icon-button:hover {
+  filter: brightness(1.4);
+}
+
+.back-button {
+  color: black;
+  margin-left: 0px;
+  border-radius: var(--border-radius);
+  transition: background var(--speed);
+}
+
+.back-position {
+  float: left;
+  display: flex;
+}
+
+.back-text {
+  width: 228px;
+  text-align: center;
+}
+
+.status-text {
+  width: 300px;
+  text-align: center;
 }

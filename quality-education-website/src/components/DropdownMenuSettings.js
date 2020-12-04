@@ -3,13 +3,24 @@ import { CSSTransition } from "react-transition-group";
 
 function DropdownMenuLessons() {
   const [activeMenu, setActiveMenu] = useState("main");
-  const [menuHeight, setMenuHeight] = useState(160);
+  const [menuHeight, setMenuHeight] = useState(225);
 
   function calcHeight(el) {
     const height = el.offsetHeight;
     setMenuHeight(height);
   }
 
+  function Back(props) {
+    return (
+      <a
+        href="#"
+        className="back-button"
+        onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}
+      >
+        <span className="back-icon-button">⬅</span>
+      </a>
+    );
+  }
   function DropdownItem(props) {
     return (
       <a
@@ -33,10 +44,13 @@ function DropdownMenuLessons() {
         onEnter={calcHeight}
       >
         <div className="menu">
-          <h className="notifications">⚙️&ensp;Settings</h>
+          <h className="notifications">
+            <div className="status-text">⚙️&ensp;Settings</div>
+          </h>
           <DropdownItem leftIcon="👤" goToMenu="profile-control" rightIcon="➡">
             &ensp;My Profile
           </DropdownItem>
+          <DropdownItem leftIcon="✉️">&ensp;Messages</DropdownItem>
           <DropdownItem leftIcon="❓">&ensp;About</DropdownItem>
         </div>
       </CSSTransition>
@@ -49,12 +63,14 @@ function DropdownMenuLessons() {
         onEnter={calcHeight}
       >
         <div className="menu">
-          <h className="notifications">👤&ensp;My Profile</h>{" "}
+          <h className="notifications">
+            <div className="back-position">
+              <Back goToMenu="main" />
+            </div>
+            <div className="back-text">👤&ensp;My Profile</div>
+          </h>
           <DropdownItem leftIcon="⚙️">&ensp;Account Settings</DropdownItem>
           <DropdownItem leftIcon="🚪">&ensp;Log Out</DropdownItem>
-          <DropdownItem leftIcon="⬅" goToMenu="main">
-            &ensp;Back
-          </DropdownItem>
         </div>
       </CSSTransition>
     </div>

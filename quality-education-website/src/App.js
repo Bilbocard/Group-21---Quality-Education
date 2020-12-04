@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-
+import React from "react";
 import NavbarComponent from "./components/NavbarComponent.js";
-
-import classroom from "./images/classroom.jpg";
+import Home from "./components/Home.js";
 
 function App() {
   return (
-    <div>
+    <div className="background">
       <NavbarComponent />
-      <div className="background">
-        <img src={classroom} className="stretchy" />
+      <div className="home-top">
+        <Home />
       </div>
     </div>
   );
