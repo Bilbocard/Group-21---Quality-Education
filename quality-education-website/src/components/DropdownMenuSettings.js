@@ -13,7 +13,6 @@ function DropdownMenuLessons() {
   function Back(props) {
     return (
       <a
-        href="#"
         className="back-button"
         onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}
       >
@@ -24,7 +23,6 @@ function DropdownMenuLessons() {
   function DropdownItem(props) {
     return (
       <a
-        href="#"
         className="menu-item"
         onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}
       >

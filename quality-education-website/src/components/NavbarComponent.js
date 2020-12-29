@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Route, NavLink, HashRouter } from "react-router-dom";
 import Navbar from "../components/Navbar.js";
 import DropdownMenuNotifications from "../components/DropdownMenuNotifications.js";
 import DropdownMenuSettings from "../components/DropdownMenuSettings.js";
@@ -12,7 +12,6 @@ function NavbarComponent() {
     return (
       <li className="nav-item">
         <a
-          href="#"
           className="icon-button"
           onClick={() =>
             openedDropdown === dropdownNumber
@@ -27,13 +26,17 @@ function NavbarComponent() {
     );
   }
 
+  function changeDropdown(newValue) {
+    setOpenedDropdown(newValue);
+  }
+
   return (
     <Navbar>
-      <div className="nav-text">
+      <NavLink className="nav-text" to="/">
         EDUQUALITY <i className="fas fa-book-reader"></i>
-      </div>
+      </NavLink>
       <NavItem icon="📚" dropdownN={1}>
-        <DropdownMenuLessons />
+        <DropdownMenuLessons onChange={changeDropdown} />
       </NavItem>
       <NavItem icon="🔔" dropdownN={2}>
         <DropdownMenuNotifications />

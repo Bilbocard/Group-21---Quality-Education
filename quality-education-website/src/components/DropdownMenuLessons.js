@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { setState, useState } from "react";
 import { CSSTransition } from "react-transition-group";
+import { Route, NavLink, HashRouter } from "react-router-dom";
 
-function DropdownMenuLessons() {
+function DropdownMenuLessons(props) {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(160);
   const [subjectSelected, setSubject] = useState(null);
   const [currentIcon, setIcon] = useState(null);
+  const [currentPage, setPage] = useState("/subjects");
+
+  function changeDropdown(newMenu) {
+    props.onChange(newMenu);
+  }
 
   function calcHeight(el) {
     const height = el.offsetHeight;
@@ -15,9 +21,11 @@ function DropdownMenuLessons() {
   function Back(props) {
     return (
       <a
-        href="#"
         className="back-button"
-        onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}
+        onClick={() => {
+          props.goToMenu && setActiveMenu(props.goToMenu);
+          setPage("/subjects");
+        }}
       >
         <span className="back-icon-button">⬅</span>
       </a>
@@ -26,20 +34,43 @@ function DropdownMenuLessons() {
 
   function DropdownItem(props) {
     return (
-      <a
-        href="#"
-        className="menu-item"
-        onClick={() => {
-          props.goToMenu && setActiveMenu(props.goToMenu);
-          props.subject && setSubject(props.subject);
-          props.leftIcon &&
-            props.goToMenu === "tiers" &&
-            setIcon(props.leftIcon);
-        }}
-      >
-        <span className="icon-button">{props.leftIcon}</span>
-        {props.children}
-        <span className="icon-right">{props.rightIcon}</span>
+      <a>
+        {props.navPath ? (
+          <NavLink
+            to={props.navPath}
+            className="menu-item"
+            onClick={() => {
+              props.goToMenu && setActiveMenu(props.goToMenu);
+              props.subject && setSubject(props.subject);
+              props.leftIcon &&
+                props.goToMenu === "tiers" &&
+                setIcon(props.leftIcon);
+              changeDropdown(0);
+            }}
+          >
+            <span className="icon-button2">{props.leftIcon}</span>
+            {props.children}
+            <span className="icon-right">{props.rightIcon}</span>
+          </NavLink>
+        ) : (
+          <a
+            className="menu-item"
+            onClick={() => {
+              props.goToMenu && setActiveMenu(props.goToMenu);
+              props.subject && setSubject(props.subject);
+              props.subject &&
+                setPage(currentPage + "/" + props.subject.toLowerCase());
+
+              props.leftIcon &&
+                props.goToMenu === "tiers" &&
+                setIcon(props.leftIcon);
+            }}
+          >
+            <span className="icon-button2">{props.leftIcon}</span>
+            {props.children}
+            <span className="icon-right">{props.rightIcon}</span>
+          </a>
+        )}
       </a>
     );
   }
@@ -91,9 +122,15 @@ function DropdownMenuLessons() {
               {currentIcon}&ensp;{subjectSelected}
             </div>
           </h>
-          <DropdownItem leftIcon="1">&ensp;Primary School</DropdownItem>
-          <DropdownItem leftIcon="2">&ensp;Secondary School</DropdownItem>
-          <DropdownItem leftIcon="3">&ensp;Sixth Form/College</DropdownItem>
+          <DropdownItem leftIcon="1" navPath={currentPage + "/1"}>
+            &ensp;Primary School
+          </DropdownItem>
+          <DropdownItem leftIcon="2" navPath={currentPage + "/2"}>
+            &ensp;Secondary School
+          </DropdownItem>
+          <DropdownItem leftIcon="3" navPath={currentPage + "/3"}>
+            &ensp;Sixth Form/College
+          </DropdownItem>
         </div>
       </CSSTransition>
     </div>
