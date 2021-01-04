@@ -3,7 +3,6 @@ import CardItem from "./CardItem";
 import "./Cards.css";
 import Books from "../images/books.jpeg";
 import Classroom from "../images/classroom.jpg";
-import Kaisa from "../images/kaisa.jpg";
 
 function Cards() {
   return (
