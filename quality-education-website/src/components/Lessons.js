@@ -1,14 +1,13 @@
 import React from "react";
 import { Route, NavLink, HashRouter } from "react-router-dom";
-import db from "./firebase.js";
 import { setState, useState, useEffect } from "react";
 import { ExternalLink } from "react-external-link";
 import CardItem from "./CardItemVideo";
-import Books from "../images/books.jpeg";
 import "./Cards.css";
 
 function Lessons(props) {
   const [thisState, setThis] = useState([]);
+  const [output, setOutput] = useState();
   let url =
     "http://localhost:8000/api/videos/" + props.subject + "/" + props.tier;
   useEffect(() => {
@@ -26,21 +25,24 @@ function Lessons(props) {
 
   return (
     <div>
+      <h1 className="title">Lessons</h1>
       <div className="cards">
-        <h1 className="title">Lessons here</h1>
-
         <div className="cards-container">
           <div className="cards-wrapper">
             {thisState.map((number) => (
               <NavLink
-                className="cards-items"
-                to={"/watch/" + number.VideoLink.split("/")[3]}
+                key={number.VideoID}
+                className="cards-items-video"
+                to={"/watch/" + number.VideoLink.split("=")[1]}
               >
                 <CardItem
-                  src={Books}
+                  key={number.VideoID}
+                  src={number.Thumbnail}
                   title={number.Title}
                   subject={number.Subject}
                   tier={number.Tier}
+                  duration={number.Duration}
+                  author={number.Author}
                 />
               </NavLink>
             ))}

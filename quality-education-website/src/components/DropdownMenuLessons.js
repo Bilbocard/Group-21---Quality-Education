@@ -1,4 +1,4 @@
-import { setState, useState } from "react";
+import React, { setState, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Route, NavLink, HashRouter } from "react-router-dom";
 

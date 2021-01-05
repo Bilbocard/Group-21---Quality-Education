@@ -1,10 +1,31 @@
 // Create express app
+import Youtube from "./youtube.js";
 var express = require("express");
 var app = express();
 var db = require("./database.js");
 var md5 = require("md5");
 
 var bodyParser = require("body-parser");
+
+function returnTimeInSeconds(timeString) {
+  var newString = timeString;
+  newString = newString.split("PT")[1];
+  if (timeString.includes("H")) {
+    var hours = parseInt(newString.split("H")[0]);
+    newString = newString.split("H")[1];
+  } else {
+    var hours = 0;
+  }
+  if (timeString.includes("M")) {
+    var minutes = parseInt(newString.split("M")[0]);
+    newString = newString.split("M")[1];
+  } else {
+    var minutes = 0;
+  }
+  var seconds = parseInt(newString.split("S")[0]);
+  var time = hours * 3600 + minutes * 60 + seconds;
+  return time;
+}
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
@@ -145,24 +166,64 @@ app.post("/api/video/", (req, res, next) => {
   if (!req.body.tier) {
     errors.push("No tier specified");
   }
-  var data = {
-    title: req.body.title,
-    subject: req.body.subject,
-    tier: req.body.tier,
-  };
-  var sql = "INSERT INTO Videos (title, subject, tier) VALUES (?,?,?)";
-  var params = [data.title, data.subject, data.tier];
-  db.run(sql, params, function (err, result) {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: "success",
-      data: data,
-      id: this.lastID,
-    });
-  });
+  if (!req.body.link) {
+    errors.push("No link specified");
+  }
+  if (!req.body.author) {
+    errors.push("No link specified");
+  }
+  if (errors.length > 0) {
+    res.status(400).json({ error: errors.message });
+    return;
+  }
+  if (req.body.link) {
+    Youtube.get("/videos/", {
+      params: {
+        id: req.body.link.split("=")[1],
+      },
+    })
+      .then((json) => {
+        // const apiData = json.data;
+        var data = {
+          title: req.body.title,
+          subject: req.body.subject,
+          tier: req.body.tier,
+          videolink: req.body.link,
+          author: req.body.author,
+          duration: returnTimeInSeconds(
+            json.data.items[0].contentDetails.duration
+          ),
+          thumbnail: json.data.items[0].snippet.thumbnails.maxres.url,
+        };
+        var sql =
+          "INSERT INTO Videos (title, subject, tier, videolink, author, duration, thumbnail) VALUES (?,?,?,?,?,?,?)";
+        var params = [
+          data.title,
+          data.subject,
+          data.tier,
+          data.videolink,
+          data.author,
+          data.duration,
+          data.thumbnail,
+        ];
+        db.run(sql, params, function (err, result) {
+          if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+          }
+          res.json({
+            message: "success",
+            data: data,
+            id: this.lastID,
+            // api: apiData,
+          });
+        });
+      })
+      .catch((err) => {
+        // Do something for an error here
+        console.log("Error Reading data " + err);
+      });
+  }
 });
 // api update endpoints
 app.patch("/api/user/:username", (req, res, next) => {
@@ -193,6 +254,7 @@ app.patch("/api/user/:username", (req, res, next) => {
     }
   );
 });
+
 // api delete endpoints
 app.delete("/api/user/:username", (req, res, next) => {
   db.run(

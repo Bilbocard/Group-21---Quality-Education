@@ -18,11 +18,16 @@ h1 {
 
 .cards-wrapper {
   justify-content: center;
-  float: left;
   flex-wrap: wrap;
   display: flex;
   position: relative;
   margin: 20px 0 20px;
+}
+
+.cards-items-video {
+  margin: 0 1rem;
+  margin-bottom: 24px;
+  border-radius: 10px;
 }
 
 .cards-items {
@@ -32,7 +37,7 @@ h1 {
 .cards-item {
   display: flex;
   flex: 1;
-  margin: 0 1rem;
+  padding: 0 1rem;
   border-radius: 10px;
 }
 
@@ -40,9 +45,6 @@ h1 {
   display: flex;
   flex-flow: column;
   width: 100%;
-  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
-  -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
-  filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
@@ -117,7 +119,7 @@ h1 {
   float: left;
   text-align: center;
   color: #252e48;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 24px;
 }
 .cards-item-text-duration {
@@ -126,7 +128,7 @@ h1 {
   margin-left: auto;
   text-align: center;
   color: #252e48;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 24px;
 }
 
@@ -135,18 +137,18 @@ h1 {
   margin-left: auto;
   text-align: left;
   color: #252e48;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 18px;
 }
 
 .cards-item-pic-wrap-video {
   margin: 0;
   position: relative;
   width: 300px;
-  padding-top: 67%;
+  padding-top: 60%;
   overflow: hidden;
 }
 
@@ -165,6 +167,10 @@ h1 {
   transition: all 0.2s linear;
 }
 
-.cards-item-img-video:hover {
+.cards-item-video {
+  display: flex;
+  flex: 1;
+}
+.cards-item-video:hover .cards-item-img-video {
   filter: brightness(1.5);
 }
