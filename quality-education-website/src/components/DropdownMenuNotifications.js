@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function DropdownMenuNotifications() {
   const [activeMenu, setActiveMenu] = useState("main");
   function DropdownItem(props) {
     return (
-      <a href="#" className="menu-item">
+      <a className="menu-item">
         <span className="icon-button">{props.leftIcon}</span>
         {props.children}
       </a>
