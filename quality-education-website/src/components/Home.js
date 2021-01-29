@@ -8,7 +8,7 @@ function Home() {
     <>
       <HeroSection />
       <Cards />
-      <DiscussionBoard/>
+      <DiscussionBoard />
     </>
   );
 }
