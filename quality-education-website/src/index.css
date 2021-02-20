@@ -306,3 +306,18 @@ a {
   color: #3399ff;
   text-decoration: underline;
 }
+
+.videoPad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: none;
+  margin: 0 auto;
+}
