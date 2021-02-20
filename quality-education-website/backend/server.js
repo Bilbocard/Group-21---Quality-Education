@@ -91,20 +91,6 @@ app.get("/api/videos", (req, res, next) => {
     });
   });
 });
-app.get("/api/videos/:videoID", (req, res, next) => {
-  var sql = "select * from Videos where VideoID = ?";
-  var params = [req.params.videoID];
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: "success",
-      data: rows,
-    });
-  });
-});
 app.get("/api/videos/:subject", (req, res, next) => {
   var sql = "select * from Videos where LOWER(subject) = LOWER(?)";
   var params = [req.params.subject];
