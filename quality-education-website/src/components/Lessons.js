@@ -33,7 +33,7 @@ function Lessons(props) {
               <NavLink
                 key={number.VideoID}
                 className="cards-items-video"
-                to={"/watch/" + number.VideoLink.split("=")[1]}
+                to={"/watch/" + number.VideoID}
               >
                 <CardItem
                   key={number.VideoID}
