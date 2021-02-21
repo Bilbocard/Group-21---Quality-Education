@@ -1,5 +1,7 @@
 // Create express app
 import Youtube from "./youtube.js";
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 var express = require("express");
 var app = express();
 var db = require("./database.js");
@@ -130,6 +132,50 @@ app.get("/api/videos/:subject/:tier", (req, res, next) => {
     res.json({
       message: "success",
       data: rows,
+    });
+  });
+});
+app.get("/api/quizzes/get/:quizid", (req, res, next) => {
+  var sql = "select QuizName, Subject, Tier from Quiz where QuizID = ?";
+  var sql2 = "select QuestionID, Question from QuizQuestions where QuizID = ?";
+  var sql3 = "select Answer, IsCorrect from QuizAnswers where QuestionID = ?";
+  var params = [req.params.quizid];
+  db.each(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    var returnJson = [
+      {
+        data: rows,
+      },
+    ];
+    db.all(sql2, params, (err, rows2) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      returnJson[0].data.Questions = rows2;
+      var bar = new Promise((resolve, reject) => {
+        var count = 0;
+        returnJson[0].data.Questions.forEach((item) => {
+          db.all(sql3, item.QuestionID, (err, rows3) => {
+            if (err) {
+              res.status(400).json({ error: err.message });
+              return;
+            }
+            returnJson[0].data.Questions[count].Answers = rows3;
+            count = count + 1;
+            console.log(count);
+            if (count == returnJson[0].data.Questions.length) {
+              resolve();
+            }
+          });
+        });
+      });
+      bar.then(() => {
+        res.json(returnJson);
+      });
     });
   });
 });
