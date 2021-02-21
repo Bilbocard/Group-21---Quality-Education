@@ -19,9 +19,14 @@ function SubjectCards(props) {
           <ul className="cards-items">
             <CardItem src={Notebook} text="Tests" />
           </ul>
-          <ul className="cards-items">
-            <CardItem src={Notebook} text="Quizzes" />
-          </ul>
+          <NavLink
+            className="cards-items"
+            to={window.location.href.split("/")[6] + "/quizzes"}
+          >
+            <ul className="cards-items">
+              <CardItem src={Notebook} text="Quizzes" />
+            </ul>
+          </NavLink>
         </div>
       </div>
     </div>
