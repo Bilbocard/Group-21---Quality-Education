@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import { Route, NavLink, HashRouter } from "react-router-dom";
+import { setState, useState, useEffect } from "react";
 import "./Quiz.css";
+import CardItemQuiz from "./CardItemQuiz.js";
+import "./CardItemQuiz.css";
 
 function Quiz(props) {
-  const [isBusy, setBusy] = useState(true);
-  const [thisState, setThis] = useState({});
-  let url = "http://localhost:8000/api/quizzes/get/1";
-  React.useEffect(() => {
+  const [thisState, setThis] = useState([]);
+  let url =
+    "http://localhost:8000/api/quizzes/get/" + props.subject + "/" + props.tier;
+  useEffect(() => {
     let Matches = [];
     fetch(url)
       .then((res) => res.json())
       .then((json) => {
         setThis(JSON.parse(JSON.stringify(json))[0].data);
-        console.log(JSON.parse(JSON.stringify(json))[0].data);
-        setBusy(false);
+        console.log(thisState);
       })
       .catch((err) => {
         // Do something for an error here
@@ -20,65 +23,29 @@ function Quiz(props) {
       });
   }, []);
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showScore, setShowScore] = useState(false);
-  const [score, setScore] = useState(0);
-
-  const handleAnswerOptionClick = (isCorrect) => {
-    if (isCorrect == 1) {
-      setScore(score + 1);
-    }
-
-    const nextQuestion = currentQuestion + 1;
-    if (nextQuestion < thisState.Questions.length) {
-      setCurrentQuestion(nextQuestion);
-    } else {
-      setShowScore(true);
-    }
-  };
   return (
-    <>
-      {isBusy ? (
-        <div />
-      ) : (
-        <>
-          <h1 className="quizTitle">{thisState.QuizName}</h1>
-          <div className="app">
-            {showScore ? (
-              <div className="score-section">
-                You scored {score} out of {thisState.Questions.length}
-              </div>
-            ) : (
-              <>
-                <div className="question-section">
-                  <div className="question-count">
-                    <span>Question {currentQuestion + 1}</span>/
-                    {thisState.Questions.length}
-                  </div>
-                  <div className="question-text">
-                    {thisState.Questions[currentQuestion].Question}
-                  </div>
-                </div>
-                <div className="answer-section">
-                  {thisState.Questions[currentQuestion].Answers.map(
-                    (answerOption) => (
-                      <button
-                        className="button"
-                        onClick={() =>
-                          handleAnswerOptionClick(answerOption.IsCorrect)
-                        }
-                      >
-                        {answerOption.Answer}
-                      </button>
-                    )
-                  )}
-                </div>
-              </>
-            )}
+    <div>
+      <h1 className="title">Quizzes</h1>
+      <div className="cards">
+        <div className="cards-container">
+          <div className="cards-wrapper">
+            {thisState.map((number) => (
+              <NavLink
+                key={number.QuizID}
+                className="cards-items-quiz"
+                to={"/quiz/" + number.QuizID}
+              >
+                <CardItemQuiz
+                  subject={number.Subject}
+                  title={number.QuizName}
+                  questions={number.Marks}
+                />
+              </NavLink>
+            ))}
           </div>
-        </>
-      )}
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 
