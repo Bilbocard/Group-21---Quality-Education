@@ -166,7 +166,6 @@ app.get("/api/quizzes/get/:quizid", (req, res, next) => {
             }
             returnJson[0].data.Questions[count].Answers = rows3;
             count = count + 1;
-            console.log(count);
             if (count == returnJson[0].data.Questions.length) {
               resolve();
             }
@@ -176,6 +175,43 @@ app.get("/api/quizzes/get/:quizid", (req, res, next) => {
       bar.then(() => {
         res.json(returnJson);
       });
+    });
+  });
+});
+app.get("/api/quizzes/get/:subject/:tier", (req, res, next) => {
+  var sql =
+    "select QuizID, QuizName, Subject, Tier from Quiz where Lower(Subject) = Lower(?) AND Tier = ?";
+  var sql2 =
+    "select COUNT(QuestionID) AS total from QuizQuestions where QuizID = ?";
+  var params = [req.params.subject, req.params.tier];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    var returnJson = [
+      {
+        data: rows,
+      },
+    ];
+    var bar = new Promise((resolve, reject) => {
+      var count = 0;
+      returnJson[0].data.forEach((item) => {
+        db.all(sql2, item.QuizID, (err, rows3) => {
+          if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+          }
+          returnJson[0].data[count].Marks = rows3[0].total;
+          count = count + 1;
+          if (count == returnJson[0].data.length) {
+            resolve();
+          }
+        });
+      });
+    });
+    bar.then(() => {
+      res.json(returnJson);
     });
   });
 });
