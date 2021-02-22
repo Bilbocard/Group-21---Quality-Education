@@ -17,7 +17,7 @@ function Subjects() {
         <Route
           path="/subjects/*/*/quizzes"
           render={(props) => (
-            <Quiz/>
+            <Quiz subject={urlPieces[5]} tier={urlPieces[6]} />
           )}
         />
         <Route

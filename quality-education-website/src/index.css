@@ -250,6 +250,7 @@ a {
 }
 
 .back-icon-button {
+  color: #000;
   --back-button-size: 20px;
   width: var(--back-button-size);
   height: var(--back-button-size);
@@ -281,6 +282,7 @@ a {
 }
 
 .back-text {
+  color: #000;
   width: 228px;
   text-align: center;
   -webkit-touch-callout: none;
@@ -292,6 +294,7 @@ a {
 }
 
 .status-text {
+  color: #000;
   width: 300px;
   text-align: center;
   -webkit-touch-callout: none;
